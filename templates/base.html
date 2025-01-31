@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+    	    Base
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+    <header style="border-bottom: 1px black solid; flex-direction: row">
+        Finance manager
+        {% if user.is_authenticated %}
+            <a href="">Dashboard</a>
+            <a href="">New transaction</a>
+            <a href="">History</a>
+            <a href="">Statistics</a>
+            
+            Hello, {% firstof user.firstname user.email %}!
+
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button>Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">LogIn</a>
+        {% endif %}
+    </header>
+
+
+    {% block body %}
+
+    {% endblock %}
+</body>
+</html>
