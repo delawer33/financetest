@@ -40,6 +40,10 @@ class Currency(models.Model):
     def __str__(self):
         return self.symbol
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
 
 class UserModel(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
