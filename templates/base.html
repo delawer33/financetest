@@ -15,19 +15,19 @@
     <header style="border-bottom: 1px black solid; flex-direction: row">
         Finance manager
         {% if user.is_authenticated %}
-            <a href="">Dashboard</a>
-            <a href="">New transaction</a>
+            <a href="{% url 'finance:dashboard' %}">Dashboard</a>
+            <a href="{% url 'finance:create-trans' %}">New transaction</a>
             <a href="">History</a>
             <a href="">Statistics</a>
             
             Hello, {% firstof user.firstname user.email %}!
 
-            <form action="{% url 'logout' %}" method="POST">
+            <form action="{% url 'authapp:logout' %}" method="POST">
                 {% csrf_token %}
                 <button>Logout</button>
             </form>
         {% else %}
-            <a href="{% url 'login' %}">LogIn</a>
+            <a href="{% url 'authapp:login' %}">LogIn</a>
         {% endif %}
     </header>
 

@@ -127,6 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authapp.UserModel'
 
-LOGIN_REDIRECT_URL = "main"
-LOGOUT_REDIRECT_URL = "main"
-LOGIN_URL = "auth/login"
+LOGIN_REDIRECT_URL = "finance:dashboard"
+LOGOUT_REDIRECT_URL = "authapp:login"
+LOGIN_URL = "authapp:login"
