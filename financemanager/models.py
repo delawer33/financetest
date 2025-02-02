@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -31,7 +32,7 @@ class Transaction(models.Model):
     )
 
     date = models.DateField(
-        auto_now_add=True
+        default=timezone.now
     )
 
     description = models.TextField(

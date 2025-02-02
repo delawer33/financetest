@@ -1,9 +1,19 @@
 from django import forms
+from django.utils import timezone
 
 from .models import Transaction
 
 
 class TransactionCreateForm(forms.ModelForm):
+    date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'value': timezone.now().date()
+            }
+        )
+    )
+
 
     def save(self, commit=True):
         trans = super().save(commit=False)
@@ -13,4 +23,4 @@ class TransactionCreateForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ('category', 'type', 'amount', 'description')
+        fields = ('category', 'date', 'type', 'amount', 'description')
