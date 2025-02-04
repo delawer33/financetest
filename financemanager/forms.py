@@ -1,7 +1,7 @@
 from django import forms
 from django.utils import timezone
 
-from .models import Transaction
+from .models import Transaction, Category
 
 
 class TransactionCreateForm(forms.ModelForm):
@@ -14,6 +14,10 @@ class TransactionCreateForm(forms.ModelForm):
         )
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['category'].initial =
+        self.initial['category'] = Category.objects.filter(type="OUTCOME")
 
     def save(self, commit=True):
         trans = super().save(commit=False)

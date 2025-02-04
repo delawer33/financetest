@@ -4,14 +4,27 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
+from rest_framework import permissions, viewsets, filters
+from rest_framework.response import Response
 
 from .forms import TransactionCreateForm
-from .models import Transaction
+from .models import Transaction, Category
+from .serializers import TransactionSerializer
 
 
 @login_required
 def dashboard(request):
     return render(request, 'financemanager/dashboard.html')
+
+
+def get_categories_by_type(request):
+    transaction_type = request.GET.get('type')
+    categories = Category.objects.filter(type=transaction_type)
+    return render(
+        request,
+        'financemanager/category_dropdown.html',
+        {'categories': categories}
+    )
 
 
 class TransactionCreate(LoginRequiredMixin, CreateView):
@@ -30,4 +43,16 @@ class History(LoginRequiredMixin, ListView):
     template_name = 'financemanager/history.html'
     context_object_name = 'transactions'
 
-    # def get_queryset(self):
+
+class TransactionViewset(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Transaction.objects.filter(user=user).order_by('-id')
+
+    class Meta:
+        ordering = ['-id']
